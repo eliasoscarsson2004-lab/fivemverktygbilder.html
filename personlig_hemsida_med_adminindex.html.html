@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Min personliga sida</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f4f4;
+    }
+    header {
+      background: #222;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    main {
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+      background: white;
+    }
+    .admin {
+      margin-top: 40px;
+      padding: 20px;
+      background: #eee;
+    }
+    input, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+    }
+    button {
+      background: #222;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #444;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 id="title"></h1>
+    <p id="subtitle"></p>
+  </header>
+
+  <main>
+    <h2>Om mig</h2>
+    <p id="content"></p>
+
+    <div class="admin">
+      <h3>Adminpanel</h3>
+      <input type="password" id="password" placeholder="Admin-lösenord" />
+      <button onclick="login()">Logga in</button>
+
+      <div id="editor" style="display:none;">
+        <input id="editTitle" placeholder="Titel" />
+        <input id="editSubtitle" placeholder="Undertitel" />
+        <textarea id="editContent" placeholder="Om mig-text"></textarea>
+        <button onclick="saveContent()">Spara</button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const ADMIN_PASSWORD = "admin123";
+
+    function loadContent() {
+      document.getElementById("title").innerText = localStorage.getItem("title") || "Välkommen till min sida";
+      document.getElementById("subtitle").innerText = localStorage.getItem("subtitle") || "Detta är min personliga hemsida";
+      document.getElementById("content").innerText = localStorage.getItem("content") || "Skriv något om dig själv här.";
+    }
+
+    function login() {
+      const pw = document.getElementById("password").value;
+      if (pw === ADMIN_PASSWORD) {
+        document.getElementById("editor").style.display = "block";
+        document.getElementById("editTitle").value = localStorage.getItem("title") || "";
+        document.getElementById("editSubtitle").value = localStorage.getItem("subtitle") || "";
+        document.getElementById("editContent").value = localStorage.getItem("content") || "";
+      } else {
+        alert("Fel lösenord");
+      }
+    }
+
+    function saveContent() {
+      localStorage.setItem("title", document.getElementById("editTitle").value);
+      localStorage.setItem("subtitle", document.getElementById("editSubtitle").value);
+      localStorage.setItem("content", document.getElementById("editContent").value);
+      loadContent();
+      alert("Sparat!");
+    }
+
+    loadContent();
+  </script>
+</body>
+</html>
